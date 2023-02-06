@@ -1,5 +1,5 @@
 # Netherbot - Tool for  [trickerer/Trinity-Bots](https://github.com/trickerer/Trinity-Bots)
-Netherbot is an addon for NPCBots for TrinityCore and AzerothCore 3.3.5, to help you play with npcbots.
+Netherbot is an addon for NPCBots for TrinityCore and AzerothCore 3.3.5, allowing for quick and easy access to various bot-related commands.
 
 ![Netherbot](https://user-images.githubusercontent.com/94380113/216856945-ae4b213e-1b74-4bab-ab78-494f5ad52c4b.png)
 
