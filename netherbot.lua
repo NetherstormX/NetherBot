@@ -482,6 +482,7 @@ buttonSpawnBot:SetScript("OnClick", function()
   if input ~= "" then
     SendChatMessage(".npcbot spawn "..input, "GUILD")
     classInput:SetText("")
+    classInput:ClearFocus()
   else
     print("Please enter an ID:")
   end
