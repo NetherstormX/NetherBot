@@ -1,5 +1,5 @@
 NetherBot.Locales.zhCN = {
-	["NetherBot - NPCBOT Tool"] = "NetherBot - NPCBots 机器人工具",
+	["NetherBot - NPCBOT Tool"] = "NPCBots工具",
 	["Admin"] = "管理",
 	["Follow"] = "跟随",
 	["Stand"] = "站立",
@@ -18,7 +18,7 @@ NetherBot.Locales.zhCN = {
 	["Enter NPCBOT ID:"] = "输入NPC机器人ID:",
 	["Ok"] = "好的",
 	["Cancel"] = "取消",
-	["Are you sure you want to delete?"] = "是否确认删除",
+	["Are you sure you want to delete?"] = "是否确认删除？",
 	["Yes"] = "是",
 	["No"] = "否",
 	["Revive Bots"] = "复活机器人",
