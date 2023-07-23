@@ -5,5 +5,9 @@
 ## Version: 1.0
 ## SavedVariables: NetherbotDB
 
+locale.lua
+locale\zhCN.lua
+locale\zhTW.lua
+
 functions.lua
 netherbot.lua

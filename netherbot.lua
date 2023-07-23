@@ -1,3 +1,6 @@
+NetherBot.InitLocale()
+local i18n = NetherBot.I18n
+
 -- Create the Main frame
 local frame = CreateFrame("Frame", "NetherbotFrame", UIParent)
 frame:SetSize(200, 200)
@@ -5,7 +8,7 @@ frame:SetPoint("CENTER", UIParent, "CENTER")
 
 local title = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 title:SetPoint("TOP", frame, "TOP", 0, -10)
-title:SetText("NetherBot - NPCBOT Tool")
+title:SetText(i18n("NetherBot - NPCBOT Tool"))
 
 -- Set the background color and transparency for MainFrame "Frame"
 frame:SetBackdrop({
@@ -36,7 +39,7 @@ adminFrame:Hide() -- hide the admin frame by default
 
 local adminTitle = adminFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 adminTitle:SetPoint("TOP", adminFrame, "TOP", 0, -10)
-adminTitle:SetText("Admin")
+adminTitle:SetText(i18n("Admin"))
 
 
 -- Handle frame movement
@@ -59,7 +62,7 @@ end)
 local followButton = CreateFrame("Button", "NetherbotFollowButton", frame, "ActionButtonTemplate")
 followButton:SetPoint("TOPLEFT", frame, "TOPLEFT", 30, -35)
 followButton:SetSize(45, 45)
-followButton:SetText("Follow")
+followButton:SetText(i18n("Follow"))
 followButton:SetNormalFontObject("GameFontNormal")
 local followTexture = followButton:CreateTexture(nil, "BACKGROUND")
 followTexture:SetTexture("Interface\\Icons\\Ability_Tracking")
@@ -74,7 +77,7 @@ followButton:SetPushedTexture(followpushedTexture)
 local standstillButton = CreateFrame("Button", "NetherbotStandstillButton", frame, "ActionButtonTemplate")
 standstillButton:SetPoint("LEFT", followButton, "RIGHT", 5, 0)
 standstillButton:SetSize(45, 45)
-standstillButton:SetText("Stand")
+standstillButton:SetText(i18n("Stand"))
 standstillButton:SetNormalFontObject("GameFontNormal")
 local standstillTexture = standstillButton:CreateTexture(nil, "BACKGROUND")
 standstillTexture:SetTexture("Interface\\Icons\\Inv_misc_map_01")
@@ -89,7 +92,7 @@ standstillButton:SetPushedTexture(standstillpushedTexture)
 local fullstopButton = CreateFrame("Button", "NetherbotfullstopButton", frame, "ActionButtonTemplate")
 fullstopButton:SetPoint("LEFT", standstillButton, "RIGHT", 5, 0)
 fullstopButton:SetSize(45, 45)
-fullstopButton:SetText("Stop")
+fullstopButton:SetText(i18n("Stop"))
 fullstopButton:SetNormalFontObject("GameFontNormal")
 local fullstopTexture = fullstopButton:CreateTexture(nil, "BACKGROUND")
 fullstopTexture:SetTexture("Interface\\Icons\\Spell_chargenegative")
@@ -102,13 +105,13 @@ fullstopButton:SetPushedTexture(fullstoppushedTexture)
 
 local distanceLabel = standstillButton:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 distanceLabel:SetPoint("BOTTOM", standstillButton, "BOTTOM", 0, -15)
-distanceLabel:SetText("Follow Distance:")
+distanceLabel:SetText(i18n("Follow Distance:"))
 
 --Distance1 Button
 local distance1Button = CreateFrame("Button", "Netherbotdistance1Button", frame, "ActionButtonTemplate")
 distance1Button:SetPoint("TOPLEFT", followButton, "BOTTOMLEFT", -5, -20)
 distance1Button:SetSize(50, 25)
-distance1Button:SetText("Low")
+distance1Button:SetText(i18n("Low"))
 distance1Button:SetNormalFontObject("GameFontNormal")
 local distance1Texture = distance1Button:CreateTexture(nil, "BACKGROUND")
 distance1Texture:SetTexture("Interface\\Icons\\Inv_misc_punchcards_red")
@@ -123,7 +126,7 @@ distance1Button:SetPushedTexture(distance1pushedTexture)
 local distance2Button = CreateFrame("Button", "Netherbotdistance2Button", frame, "ActionButtonTemplate")
 distance2Button:SetPoint("LEFT", distance1Button, "RIGHT", 5, 0)
 distance2Button:SetSize(50, 25)
-distance2Button:SetText("Medium")
+distance2Button:SetText(i18n("Medium"))
 distance2Button:SetNormalFontObject("GameFontNormal")
 local distance2Texture = distance2Button:CreateTexture(nil, "BACKGROUND")
 distance2Texture:SetTexture("Interface\\Icons\\Inv_misc_punchcards_red")
@@ -138,7 +141,7 @@ distance2Button:SetPushedTexture(distance2pushedTexture)
 local distance3Button = CreateFrame("Button", "Netherbotdistance3Button", frame, "ActionButtonTemplate")
 distance3Button:SetPoint("LEFT", distance2Button, "RIGHT", 5, 0)
 distance3Button:SetSize(50, 25)
-distance3Button:SetText("High")
+distance3Button:SetText(i18n("High"))
 distance3Button:SetNormalFontObject("GameFontNormal")
 local distance3Texture = distance3Button:CreateTexture(nil, "BACKGROUND")
 distance3Texture:SetTexture("Interface\\Icons\\Inv_misc_punchcards_red")
@@ -155,44 +158,44 @@ distance3Button:SetPushedTexture(distance3pushedTexture)
 local adminButton = CreateFrame("Button", "NetherbotAdminButton", frame, "UIPanelButtonTemplate")
 adminButton:SetSize(60, 20)
 adminButton:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -10, 10) -- position the button in the bottom right of the frame
-adminButton:SetText("Admin")
+adminButton:SetText(i18n("Admin"))
 adminButton:GetNormalTexture():SetVertexColor(0.10,1.00,0.10)
 
 -- Create Admin Buttons
 local buttonAdd = CreateFrame("Button", "NetherbotButtonAdd", adminFrame, "UIPanelButtonTemplate")
 buttonAdd:SetSize(56, 22)
 buttonAdd:SetPoint("TOPLEFT", adminFrame, "TOPLEFT", 10, -35)
-buttonAdd:SetText("Add")
+buttonAdd:SetText(i18n("Add"))
 buttonAdd:GetNormalTexture():SetVertexColor(0.10,1.00,0.10)
 
 local buttonRemove = CreateFrame("Button", "NetherbotButtonRemove", adminFrame, "UIPanelButtonTemplate")
 buttonRemove:SetSize(65, 22)
 buttonRemove:SetPoint("TOP", buttonAdd, "BOTTOM", 25, -5)
-buttonRemove:SetText("Remove")
+buttonRemove:SetText(i18n("Remove"))
 buttonRemove:GetNormalTexture():SetVertexColor(0.10,1.00,0.10)
 
 local buttonRecall = CreateFrame("Button", "NetherbotButtonRecall", adminFrame, "UIPanelButtonTemplate")
 buttonRecall:SetSize(59, 22)
 buttonRecall:SetPoint("LEFT", buttonAdd, "RIGHT", 3, 0)
-buttonRecall:SetText("Recall")
+buttonRecall:SetText(i18n("Recall"))
 buttonRecall:GetNormalTexture():SetVertexColor(0.10,1.00,0.10)
 
 local buttonBotinfo = CreateFrame("Button", "NetherbotButtonBotInfo", adminFrame, "UIPanelButtonTemplate")
 buttonBotinfo:SetSize(62, 22)
 buttonBotinfo:SetPoint("LEFT", buttonRecall, "RIGHT", 2, 0)
-buttonBotinfo:SetText("Bot-Info")
+buttonBotinfo:SetText(i18n("Bot-Info"))
 buttonBotinfo:GetNormalTexture():SetVertexColor(0.10,1.00,0.10)
 
 local buttonMove = CreateFrame("Button", "NetherbotButtonMove", adminFrame, "UIPanelButtonTemplate")
 buttonMove:SetSize(65, 22)
 buttonMove:SetPoint("LEFT", buttonRemove, "RIGHT", 5, 0)
-buttonMove:SetText("Move")
+buttonMove:SetText(i18n("Move"))
 buttonMove:GetNormalTexture():SetVertexColor(0.10,1.00,0.10)
 
 local buttonDelete = CreateFrame("Button", "NetherbotButtonDelete", adminFrame, "UIPanelButtonTemplate")
 buttonDelete:SetSize(60, 22)
 buttonDelete:SetPoint("BOTTOMRIGHT", adminFrame, "BOTTOMRIGHT", -10, 10)
-buttonDelete:SetText("Delete")
+buttonDelete:SetText(i18n("Delete"))
 buttonDelete:GetNormalTexture():SetVertexColor(0.10,1.00,0.10)
 
 local redemptionButton = CreateFrame("Button", "NetherbotRedemptionButton", adminFrame, "SecureActionButtonTemplate")
@@ -212,7 +215,7 @@ redemptionButton:SetAttribute("spell", 7328)
 local botLookupButton = CreateFrame("Button", "NetherbotBotLookupButton", adminFrame, "UIPanelButtonTemplate")
 botLookupButton:SetSize(65, 22)
 botLookupButton:SetPoint("BOTTOM", adminFrame, "BOTTOM", 0, 10)
-botLookupButton:SetText("Lookup")
+botLookupButton:SetText(i18n("Lookup"))
 botLookupButton:GetNormalTexture():SetVertexColor(0.10,1.00,0.10)
 
 
@@ -363,7 +366,7 @@ end)
 
   redemptionButton:SetScript("OnEnter", function(self)
     GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-    GameTooltip:SetText("Revive Bots")
+    GameTooltip:SetText(i18n("Revive Bots"))
     GameTooltip:Show()
   end)
   
@@ -387,7 +390,7 @@ lookupFrame:Hide()
 
 local lookupTitle = lookupFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 lookupTitle:SetPoint("TOPLEFT", lookupFrame, "TOPLEFT", 10, -10)
-lookupTitle:SetText("Select class:")
+lookupTitle:SetText(i18n("Select class:"))
 
 
 -- Create the scrollframe for the list
@@ -427,7 +430,7 @@ for key, value in pairs(classTable) do
   local button = CreateFrame("Button", "NetherbotLookupButton"..value, lookupList, "UIPanelButtonTemplate")
   button:SetSize(180, 25)
   button:SetPoint("TOPLEFT", lookupList, "TOPLEFT", 10, -10 - (value-1)*30)
-  button:SetText(key)
+  button:SetText(i18n(key))
   button:GetNormalTexture():SetVertexColor(0.10,1.00,0.10)
 
   -- Handle the button's click event
@@ -441,7 +444,7 @@ end
 local hideLookupButton = CreateFrame("Button", "NetherbotHideLookupButton", lookupFrame, "UIPanelButtonTemplate")
 hideLookupButton:SetSize(21, 20)
 hideLookupButton:SetPoint("TOPRIGHT", lookupFrame, "TOPRIGHT", -10, -8)
-hideLookupButton:SetText("X")
+hideLookupButton:SetText(i18n("X"))
 hideLookupButton:GetNormalTexture():SetVertexColor(0.10,1.00,0.10)
 
 
@@ -460,14 +463,14 @@ spawnFrame:SetBackdrop({
 -- Create the title
 local spawnTitle = spawnFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 spawnTitle:SetPoint("TOPLEFT", spawnFrame, "TOPLEFT", 10, -10)
-spawnTitle:SetText("Spawn BOT ID:")
+spawnTitle:SetText(i18n("Spawn BOT ID:"))
 
 
 -- Create the "buttonSpawnBot" button
 local buttonSpawnBot = CreateFrame("Button", "NetherbotButtonSpawnBot", spawnFrame, "UIPanelButtonTemplate")
 buttonSpawnBot:SetSize(80, 25)
 buttonSpawnBot:SetPoint("BOTTOMLEFT", spawnFrame, "BOTTOMLEFT", 10, 10)
-buttonSpawnBot:SetText("Spawn Bot")
+buttonSpawnBot:SetText(i18n("Spawn Bot"))
 buttonSpawnBot:GetNormalTexture():SetVertexColor(0.10,1.00,0.10)
 
 -- Create the "classInput" input box
@@ -481,7 +484,7 @@ buttonSpawnBot:SetScript("OnClick", function()
   local input = classInput:GetText()
   if input ~= "" then
     SendChatMessage(".npcbot spawn "..input, "GUILD")
-    classInput:SetText("")
+    classInput:SetText(i18n(""))
     classInput:ClearFocus()
   else
     print("Please enter an ID:")
