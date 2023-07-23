@@ -161,6 +161,12 @@ adminButton:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -10, 10) -- position t
 adminButton:SetText(i18n("Admin"))
 adminButton:GetNormalTexture():SetVertexColor(0.10,1.00,0.10)
 
+local raidButton = CreateFrame("Button", "NetherbotRaidButton", frame, "UIPanelButtonTemplate")
+raidButton:SetSize(70, 20)
+raidButton:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -120, 10) -- position the button in the bottom right of the frame
+raidButton:SetText("RaidFrame")
+raidButton:GetNormalTexture():SetVertexColor(0.10,1.00,0.10)
+
 -- Create Admin Buttons
 local buttonAdd = CreateFrame("Button", "NetherbotButtonAdd", adminFrame, "UIPanelButtonTemplate")
 buttonAdd:SetSize(56, 22)
@@ -534,3 +540,185 @@ function SlashCmdList.NETHERBOT(msg, editbox)
     lookupFrame:Hide()
   end
 end
+
+-- RAID FRAMES:
+
+-- Create main frame
+local TeamFrame = CreateFrame("Frame", "TeamFrame", UIParent)
+TeamFrame:SetSize(350, 600)
+TeamFrame:SetPoint("CENTER")
+
+-- Make the frame draggable
+TeamFrame:SetMovable(true)
+TeamFrame:EnableMouse(true)
+TeamFrame:RegisterForDrag("LeftButton")
+TeamFrame:SetScript("OnDragStart", TeamFrame.StartMoving)
+TeamFrame:SetScript("OnDragStop", TeamFrame.StopMovingOrSizing)
+TeamFrame:Hide()
+
+-- Create tables to store information
+local memberFrames = {}
+local healthBars = {}
+local manaBars = {}
+local nameTexts = {}
+local groupFrames = {}
+
+-- Initialize frames and bars
+local function initializeFramesAndBars()
+
+      -- Check if the necessary data is ready
+      if not RAID_CLASS_COLORS then
+        return  -- Data is not ready, exit the function
+    end
+
+    -- Clear old frames and bars
+    for i = 1, #memberFrames do
+        memberFrames[i]:Hide()
+    end
+    memberFrames = {}
+    healthBars = {}
+    manaBars = {}
+    nameTexts = {}
+
+    -- Loop over the raid members
+    local numRaidMembers = GetNumRaidMembers()
+    for i = 1, numRaidMembers do
+        -- Calculate the group (1-8) and position within the group (1-5) of this member
+        local group = math.ceil(i / 5)
+        local position = i - ((group - 1) * 5)
+
+         -- If this is the first member of the group, create a group frame with a title
+    if position == 1 then
+        local groupFrame = CreateFrame("Frame", nil, TeamFrame)
+        groupFrame:SetSize(80, 20)  -- Adjust as needed
+
+        -- Calculate the column (0-1) and row (0-7) of the group
+        local column = (group - 1) % 2
+        local row = math.floor((group - 1) / 2)
+        groupFrame:SetPoint("TOPLEFT", TeamFrame, "TOP", 175 * (column - 1), 10 - row * 230)
+
+        -- Set border to the frame
+        groupFrame:SetBackdrop({
+            edgeFile = "Interface/Tooltips/UI-Tooltip-Border",  
+            tile = true, tileSize = 16, edgeSize = 16,
+            insets = { left = 4, right = 4, top = 4, bottom = 4 }
+        })
+
+TeamFrame:SetBackdropBorderColor(1, 0, 0, 0.5)  
+
+        -- Add group title
+        local groupTitle = groupFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+        groupTitle:SetPoint("TOP", 0, -3)
+        groupTitle:SetText("Group: "..group)
+        groupTitle:SetTextColor(1, 1, 1)  -- White color
+
+        -- Store the group frame
+        groupFrames[group] = groupFrame
+    end
+
+        -- Calculate the column (0-1) and row (0-7) of the group
+        local column = (group - 1) % 2
+        local row = math.floor((group - 1) / 2)
+
+        -- Create a subframe for each raid member
+        local memberFrame = CreateFrame("Button", nil, TeamFrame, "SecureUnitButtonTemplate")
+        memberFrame:SetSize(150, 42)  -- Adjust size to better fit the new layout
+        memberFrame:SetPoint("TOPLEFT", TeamFrame, "TOPLEFT", 10 + 175 * column, -10 - ((row * 230) + (position - 1) * 42))  -- Adjusted offset to better fit the new layout
+        memberFrame:SetAttribute("unit", "raid"..i)
+        memberFrame:RegisterForClicks("AnyUp")
+        SecureUnitButton_OnLoad(memberFrame, "raid"..i)
+        
+        -- Set border to the frame
+        memberFrame:SetBackdrop({bgFile = "Interface/Tooltips/UI-Tooltip-Background",
+        edgeFile = "Interface/Tooltips/UI-Tooltip-Border",  
+        tile = true, tileSize = 16, edgeSize = 16,
+        insets = { left = 4, right = 4, top = 4, bottom = 4 }
+        })
+        local playerClass, charClass, classIndex = UnitClass("raid"..i)
+        local classColor = RAID_CLASS_COLORS[charClass] or { r = 1, g = 1, b = 1 }  -- Use a default color if characterClass is not found in RAID_CLASS_COLOR - Workaround for the delay of bots spawning
+        memberFrame:SetBackdropBorderColor(classColor.r, classColor.g, classColor.b, 0.8)  -- Set the border color to class color
+        memberFrame:SetBackdropColor(classColor.r, classColor.g, classColor.b, 0.2)
+        
+
+        -- Add the player's name
+        local playerName, playerRealm = UnitName("raid"..i)
+        local playerClass, charClass, classIndex = UnitClass("raid"..i)
+        local classColor = RAID_CLASS_COLORS[charClass] or { r = 1, g = 1, b = 1 }
+        local nameText = memberFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+        nameText:SetPoint("TOP", 5, -5)
+        nameText:SetText(playerName)
+        nameText:SetTextColor(classColor.r, classColor.g, classColor.b)
+
+        -- Add the health bar
+        local healthBar = CreateFrame("StatusBar", nil, memberFrame)
+        healthBar:SetStatusBarTexture("Interface\\TARGETINGFRAME\\UI-StatusBar")
+        healthBar:SetPoint("TOP", nameText, "BOTTOM", 0, -2)
+        healthBar:SetSize(100, 8)
+        healthBar:SetMinMaxValues(0, UnitHealthMax("raid"..i))
+        healthBar:SetValue(UnitHealth("raid"..i))
+
+        -- Add the mana bar
+        local manaBar = CreateFrame("StatusBar", nil, memberFrame)
+        manaBar:SetStatusBarTexture("Interface\\TARGETINGFRAME\\UI-StatusBar")
+        manaBar:SetStatusBarColor(0, 0, 1)
+        manaBar:SetPoint("TOP", healthBar, "BOTTOM", 0, 0)
+        manaBar:SetSize(100, 8)
+        manaBar:SetMinMaxValues(0, UnitPowerMax("raid"..i))
+        manaBar:SetValue(UnitPower("raid"..i))
+
+        -- Add frames, bars, and texts to the tables
+        memberFrames[i] = memberFrame
+        healthBars[i] = healthBar
+        manaBars[i] = manaBar
+        nameTexts[i] = nameText
+    end
+end
+
+-- Event handler for unit health and mana changes
+local function updateHealthAndMana(self, event, unit)
+    for i = 1, #healthBars do
+        if unit == "raid"..i then
+            healthBars[i]:SetMinMaxValues(0, UnitHealthMax(unit))
+            healthBars[i]:SetValue(UnitHealth(unit))
+            manaBars[i]:SetMinMaxValues(0, UnitPowerMax(unit))
+            manaBars[i]:SetValue(UnitPower(unit))
+        end
+    end
+end
+
+-- Event handler for raid composition changes
+local function updateRaidComposition(self, event, ...)
+    initializeFramesAndBars()
+end
+
+-- Event handler for BotSpawn delay
+local function OnEvent(self, event, ...)
+  if event == "PLAYER_ENTERING_WORLD" or event == "RAID_ROSTER_UPDATE" or event == "ADDON_LOADED" then
+      initializeFramesAndBars()
+  else
+      updateHealthAndMana(self, event, ...)
+  end
+end
+
+-- Register events
+TeamFrame:RegisterEvent("UNIT_HEALTH")
+TeamFrame:RegisterEvent("UNIT_POWER_UPDATE")
+TeamFrame:RegisterEvent("RAID_ROSTER_UPDATE")
+TeamFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+TeamFrame:SetScript("OnEvent", function(self, event, ...)
+    if event == "PLAYER_ENTERING_WORLD" or event == "RAID_ROSTER_UPDATE" then
+        initializeFramesAndBars()
+    else
+        updateHealthAndMana(self, event, ...)
+    end
+end)
+TeamFrame:SetScript("OnEvent", OnEvent)
+
+raidButton:SetScript("OnClick", function()
+  if TeamFrame:IsShown() then
+    TeamFrame:Hide()
+  else
+    initializeFramesAndBars()
+    TeamFrame:Show()
+  end
+end)

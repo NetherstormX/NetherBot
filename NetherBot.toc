@@ -2,12 +2,14 @@
 ## Title: NetherBot
 ## Notes: NetherBot - npcbot tool
 ## Author: NetherstormX
-## Version: 1.0
+## Version: 1.1
 ## SavedVariables: NetherbotDB
 
 locale.lua
 locale\zhCN.lua
 locale\zhTW.lua
+locale\itIT.lua
+locale\grGR.lua
+locale\frFR.lua
 
-functions.lua
 netherbot.lua
