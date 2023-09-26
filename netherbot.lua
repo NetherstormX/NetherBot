@@ -60,8 +60,8 @@ end)
 -- Create the buttons
 -- Follow Button
 local followButton = CreateFrame("Button", "NetherbotFollowButton", frame, "ActionButtonTemplate")
-followButton:SetPoint("TOPLEFT", frame, "TOPLEFT", 30, -35)
-followButton:SetSize(45, 45)
+followButton:SetPoint("TOPLEFT", frame, "TOPLEFT", 8, -35)
+followButton:SetSize(42, 42)
 followButton:SetText(i18n("Follow"))
 followButton:SetNormalFontObject("GameFontNormal")
 local followTexture = followButton:CreateTexture(nil, "BACKGROUND")
@@ -76,7 +76,7 @@ followButton:SetPushedTexture(followpushedTexture)
 -- StandStill Button
 local standstillButton = CreateFrame("Button", "NetherbotStandstillButton", frame, "ActionButtonTemplate")
 standstillButton:SetPoint("LEFT", followButton, "RIGHT", 5, 0)
-standstillButton:SetSize(45, 45)
+standstillButton:SetSize(42, 42)
 standstillButton:SetText(i18n("Stand"))
 standstillButton:SetNormalFontObject("GameFontNormal")
 local standstillTexture = standstillButton:CreateTexture(nil, "BACKGROUND")
@@ -91,7 +91,7 @@ standstillButton:SetPushedTexture(standstillpushedTexture)
 --FullStop Button
 local fullstopButton = CreateFrame("Button", "NetherbotfullstopButton", frame, "ActionButtonTemplate")
 fullstopButton:SetPoint("LEFT", standstillButton, "RIGHT", 5, 0)
-fullstopButton:SetSize(45, 45)
+fullstopButton:SetSize(42, 42)
 fullstopButton:SetText(i18n("Stop"))
 fullstopButton:SetNormalFontObject("GameFontNormal")
 local fullstopTexture = fullstopButton:CreateTexture(nil, "BACKGROUND")
@@ -103,13 +103,28 @@ fullstoppushedTexture:SetTexture("Interface\\Icons\\Spell_chargenegative")
 fullstoppushedTexture:SetAllPoints()
 fullstopButton:SetPushedTexture(fullstoppushedTexture)
 
+-- Slack Button
+local followOnlyButton = CreateFrame("Button", "NetherbotFollowOnlyButton", frame, "ActionButtonTemplate")
+followOnlyButton:SetPoint("LEFT", fullstopButton, "RIGHT", 5, 0)
+followOnlyButton:SetSize(42, 42)
+followOnlyButton:SetText(i18n("Slack"))
+followOnlyButton:SetNormalFontObject("GameFontNormal")
+local followOnlyTexture = followOnlyButton:CreateTexture(nil, "BACKGROUND")
+followOnlyTexture:SetTexture("Interface\\Icons\\Spell_Nature_Sleep")
+followOnlyTexture:SetAllPoints()
+followOnlyButton:SetNormalTexture(followOnlyTexture)
+local followOnlyPushedTexture = followOnlyButton:CreateTexture(nil, "BACKGROUND")
+followOnlyPushedTexture:SetTexture("Interface\\Icons\\Spell_Nature_Sleep")
+followOnlyPushedTexture:SetAllPoints()
+followOnlyButton:SetPushedTexture(followOnlyPushedTexture)
+
 local distanceLabel = standstillButton:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-distanceLabel:SetPoint("BOTTOM", standstillButton, "BOTTOM", 0, -15)
+distanceLabel:SetPoint("BOTTOM", standstillButton, "BOTTOM", 20, -35)
 distanceLabel:SetText(i18n("Follow Distance:"))
 
 --Distance1 Button
 local distance1Button = CreateFrame("Button", "Netherbotdistance1Button", frame, "ActionButtonTemplate")
-distance1Button:SetPoint("TOPLEFT", followButton, "BOTTOMLEFT", -5, -20)
+distance1Button:SetPoint("TOPLEFT", followButton, "BOTTOMLEFT", 10, -40)
 distance1Button:SetSize(50, 25)
 distance1Button:SetText(i18n("Low"))
 distance1Button:SetNormalFontObject("GameFontNormal")
@@ -151,9 +166,6 @@ local distance3pushedTexture = distance3Button:CreateTexture(nil, "BACKGROUND")
 distance3pushedTexture:SetTexture("Interface\\Icons\\Inv_misc_punchcards_red")
 distance3pushedTexture:SetAllPoints()
 distance3Button:SetPushedTexture(distance3pushedTexture)
-
-
-
 
 local adminButton = CreateFrame("Button", "NetherbotAdminButton", frame, "UIPanelButtonTemplate")
 adminButton:SetSize(60, 20)
@@ -251,6 +263,11 @@ standstillButton:SetScript("OnClick", function()
   distance3Button:SetScript("OnClick", function()
     SendChatMessage(".npcbot distance 85", "SAY")
   end)
+  
+followOnlyButton:SetScript("OnClick", function()
+SendChatMessage(".npcbot command follow only", "SAY")
+end)
+
 
   adminButton:SetScript("OnClick", function()
     if adminFrame:IsShown() then
